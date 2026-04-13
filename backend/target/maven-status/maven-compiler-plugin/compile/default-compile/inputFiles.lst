@@ -1,0 +1,14 @@
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\controller\PermissionController.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\DemoApplication.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysDept.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysEntity.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysMenu.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysPost.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysRole.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\SysUser.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\entity\UserPermission.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\repository\SysEntityRepository.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\repository\SysMenuRepository.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\repository\SysRoleRepository.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\repository\SysUserRepository.java
+C:\Users\zhang\IdeaProjects\demo\backend\src\main\java\com\example\demo\service\PermissionService.java
