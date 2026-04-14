@@ -38,6 +38,12 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: '通知公告', icon: 'Bell' }
       },
       {
+        path: 'system/swagger',
+        name: 'Swagger',
+        component: () => import('../views/system/swagger/index.vue'),
+        meta: { title: '接口文档', icon: 'Document' }
+      },
+      {
         path: 'system/profile',
         name: 'Profile',
         component: () => import('../views/system/profile/index.vue'),

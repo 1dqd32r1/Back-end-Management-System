@@ -35,6 +35,10 @@
             <el-icon><Bell /></el-icon>
             <template #title>通知公告</template>
           </el-menu-item>
+          <el-menu-item index="/system/swagger">
+            <el-icon><Document /></el-icon>
+            <template #title>接口文档</template>
+          </el-menu-item>
         </el-sub-menu>
 
         <el-sub-menu index="2">
@@ -119,7 +123,8 @@ import {
   UserFilled,
   ChatDotRound,
   Tools,
-  Box
+  Box,
+  Document
 } from '@element-plus/icons-vue';
 
 const props = defineProps({

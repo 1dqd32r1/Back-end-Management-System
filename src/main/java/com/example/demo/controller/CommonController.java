@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.common.Result;
 import com.example.demo.entity.SysUser;
 import com.example.demo.service.ISysUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Tag(name = "通用接口", description = "通用功能接口")
 @RestController
 @RequestMapping("/common")
 public class CommonController {
@@ -44,9 +48,10 @@ public class CommonController {
     /**
      * 上传头像
      */
+    @Operation(summary = "上传头像", description = "上传用户头像图片")
     @PostMapping("/uploadAvatar")
-    public Result<?> uploadAvatar(@RequestParam("file") MultipartFile file,
-                                   @RequestParam("userId") Long userId) {
+    public Result<?> uploadAvatar(@Parameter(description = "头像文件") @RequestParam("file") MultipartFile file,
+                                   @Parameter(description = "用户ID") @RequestParam("userId") Long userId) {
         if (file.isEmpty()) {
             return Result.error(500, "上传文件不能为空");
         }
@@ -101,6 +106,7 @@ public class CommonController {
     /**
      * 获取当前登录用户信息
      */
+    @Operation(summary = "获取当前用户信息", description = "获取当前登录用户的详细信息")
     @GetMapping("/getInfo")
     public Result<?> getInfo(@RequestAttribute("userId") Long userId) {
         SysUser user = userService.getById(userId);
