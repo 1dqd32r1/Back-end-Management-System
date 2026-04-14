@@ -47,37 +47,55 @@
     </div>
 
     <!-- 详情弹窗 -->
-    <el-dialog v-model="detailVisible" :title="selectedBuilding?.name" width="400px" class="detail-dialog">
+    <el-dialog v-model="detailVisible" :title="selectedBuilding?.name" width="420px" class="detail-dialog">
       <div v-if="selectedBuilding" class="building-detail">
-        <el-descriptions :column="1" border>
-          <el-descriptions-item label="销售额">
-            <span class="highlight">{{ selectedBuilding.sales }} 万</span>
-          </el-descriptions-item>
-          <el-descriptions-item label="用户增长">
-            <span class="highlight">{{ formatNumber(selectedBuilding.userGrowth) }}</span>
-          </el-descriptions-item>
-          <el-descriptions-item label="订单数量">
-            {{ selectedBuilding.details?.orderCount }}
-          </el-descriptions-item>
-          <el-descriptions-item label="平均客单价">
-            ¥{{ selectedBuilding.details?.avgOrderValue?.toFixed(2) }}
-          </el-descriptions-item>
-          <el-descriptions-item label="转化率">
-            {{ selectedBuilding.details?.conversionRate?.toFixed(2) }}%
-          </el-descriptions-item>
-          <el-descriptions-item label="退货率">
-            :class="{'text-danger': selectedBuilding.details?.returnRate > 5}"
-            {{ selectedBuilding.details?.returnRate?.toFixed(2) }}%
-          </el-descriptions-item>
-          <el-descriptions-item label="热门产品">
-            <el-tag v-for="p in selectedBuilding.details?.topProducts" :key="p" size="small" class="mr-1">{{ p }}</el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="状态">
-            <el-tag :type="selectedBuilding.isAbnormal ? 'danger' : 'success'">
-              {{ selectedBuilding.isAbnormal ? '⚠️ 异常' : '✓ 正常' }}
+        <div class="detail-header">
+          <div class="detail-icon" :class="{'abnormal': selectedBuilding.isAbnormal}">
+            {{ selectedBuilding.isAbnormal ? '⚠️' : '🏢' }}
+          </div>
+          <div class="detail-title">
+            <div class="detail-name">{{ selectedBuilding.name }}</div>
+            <el-tag :type="selectedBuilding.isAbnormal ? 'danger' : 'success'" size="small">
+              {{ selectedBuilding.isAbnormal ? '数据异常' : '运行正常' }}
             </el-tag>
-          </el-descriptions-item>
-        </el-descriptions>
+          </div>
+        </div>
+
+        <div class="detail-stats">
+          <div class="detail-stat-item">
+            <div class="detail-stat-value">{{ selectedBuilding.sales }}<span class="unit">万</span></div>
+            <div class="detail-stat-label">销售额</div>
+          </div>
+          <div class="detail-stat-item">
+            <div class="detail-stat-value">{{ formatNumber(selectedBuilding.userGrowth) }}</div>
+            <div class="detail-stat-label">用户增长</div>
+          </div>
+          <div class="detail-stat-item">
+            <div class="detail-stat-value">{{ selectedBuilding.details?.orderCount }}</div>
+            <div class="detail-stat-label">订单数</div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">平均客单价</span>
+          <span class="detail-value">¥{{ selectedBuilding.details?.avgOrderValue?.toFixed(2) }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">转化率</span>
+          <span class="detail-value">{{ selectedBuilding.details?.conversionRate?.toFixed(2) }}%</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">退货率</span>
+          <span class="detail-value" :class="{'text-danger': selectedBuilding.details?.returnRate > 5}">
+            {{ selectedBuilding.details?.returnRate?.toFixed(2) }}%
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">热门产品</span>
+          <span class="detail-value">
+            <el-tag v-for="p in selectedBuilding.details?.topProducts" :key="p" size="small" class="product-tag">{{ p }}</el-tag>
+          </span>
+        </div>
       </div>
     </el-dialog>
 
@@ -614,18 +632,99 @@ onUnmounted(() => {
   padding: 10px 0;
 }
 
-.highlight {
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.detail-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.detail-icon.abnormal {
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+}
+
+.detail-title {
+  flex: 1;
+}
+
+.detail-name {
   font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.detail-stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.detail-stat-item {
+  flex: 1;
+  background: rgba(79, 195, 247, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.detail-stat-value {
+  font-size: 20px;
   font-weight: bold;
   color: #4fc3f7;
 }
 
-.text-danger {
-  color: #ff4444;
+.detail-stat-value .unit {
+  font-size: 12px;
+  font-weight: normal;
+  margin-left: 2px;
 }
 
-.mr-1 {
-  margin-right: 4px;
+.detail-stat-label {
+  font-size: 11px;
+  color: #90a4ae;
+  margin-top: 4px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-label {
+  color: #90a4ae;
+  font-size: 13px;
+}
+
+.detail-value {
+  color: #e0e0e0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.product-tag {
+  margin-left: 4px;
+}
+
+.text-danger {
+  color: #ff5252 !important;
+  font-weight: 600;
 }
 
 /* 手机端响应式 */
