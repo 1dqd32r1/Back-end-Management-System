@@ -494,15 +494,17 @@ onUnmounted(() => {
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
   z-index: 10;
+  max-width: calc(100% - 200px);
 }
 
 .stat-item {
   background: rgba(10, 22, 40, 0.9);
   border: 1px solid rgba(79, 195, 247, 0.3);
   border-radius: 8px;
-  padding: 12px 20px;
+  padding: 10px 16px;
   text-align: center;
   backdrop-filter: blur(10px);
 }
@@ -513,7 +515,7 @@ onUnmounted(() => {
 }
 
 .stat-value {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #4fc3f7;
 }
@@ -523,7 +525,7 @@ onUnmounted(() => {
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 11px;
   color: #90a4ae;
   margin-top: 4px;
 }
@@ -535,31 +537,32 @@ onUnmounted(() => {
   background: rgba(10, 22, 40, 0.9);
   border: 1px solid rgba(79, 195, 247, 0.3);
   border-radius: 8px;
-  padding: 15px;
+  padding: 12px;
   z-index: 10;
   backdrop-filter: blur(10px);
 }
 
 .legend-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #4fc3f7;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-bottom: 6px;
+  font-size: 11px;
   color: #b0bec5;
 }
 
 .legend-color {
-  width: 24px;
-  height: 12px;
+  width: 20px;
+  height: 10px;
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .tips-panel {
@@ -570,16 +573,16 @@ onUnmounted(() => {
   background: rgba(10, 22, 40, 0.9);
   border: 1px solid rgba(79, 195, 247, 0.3);
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 8px 16px;
   z-index: 10;
   backdrop-filter: blur(10px);
   text-align: center;
 }
 
 .tip {
-  font-size: 12px;
+  font-size: 11px;
   color: #90a4ae;
-  margin: 4px 0;
+  margin: 3px 0;
 }
 
 .loading-overlay {
@@ -623,6 +626,59 @@ onUnmounted(() => {
 
 .mr-1 {
   margin-right: 4px;
+}
+
+/* 手机端响应式 */
+@media (max-width: 768px) {
+  .stats-panel {
+    top: 10px;
+    left: 10px;
+    gap: 8px;
+    max-width: calc(100% - 20px);
+  }
+
+  .stat-item {
+    padding: 8px 12px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .legend-panel {
+    top: auto;
+    bottom: 80px;
+    right: 10px;
+    padding: 10px;
+  }
+
+  .legend-title {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .legend-item {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 8px;
+  }
+
+  .tips-panel {
+    bottom: 10px;
+    padding: 6px 12px;
+  }
+
+  .tip {
+    font-size: 10px;
+  }
 }
 
 :deep(.el-dialog) {
