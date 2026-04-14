@@ -83,6 +83,10 @@ onMounted(() => {
     window.addEventListener(eventName, resetInactivityTimer);
   });
   resetInactivityTimer();
+  // 页面加载时获取用户信息
+  if (userStore.token && !userStore.avatar) {
+    userStore.getUserInfo();
+  }
 });
 
 onUnmounted(() => {
