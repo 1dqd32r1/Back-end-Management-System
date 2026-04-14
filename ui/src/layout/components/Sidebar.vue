@@ -92,6 +92,11 @@
           <template #title>AI 对话</template>
         </el-menu-item>
 
+        <el-menu-item index="/datacity">
+          <el-icon><OfficeBuilding /></el-icon>
+          <template #title>3D 数据城市</template>
+        </el-menu-item>
+
         <el-menu-item index="/settings">
           <el-icon><Tools /></el-icon>
           <template #title>系统设置</template>
@@ -124,7 +129,8 @@ import {
   ChatDotRound,
   Tools,
   Box,
-  Document
+  Document,
+  OfficeBuilding
 } from '@element-plus/icons-vue';
 
 const props = defineProps({

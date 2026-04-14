@@ -63,6 +63,12 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: 'AI 对话', icon: 'ChatDotRound' }
       },
       {
+        path: 'datacity',
+        name: 'DataCity',
+        component: () => import('../views/datacity/index.vue'),
+        meta: { title: '3D数据城市', icon: 'OfficeBuilding' }
+      },
+      {
         path: 'settings',
         name: 'Settings',
         component: () => import('../views/settings/index.vue'),
