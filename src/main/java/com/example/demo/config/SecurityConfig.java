@@ -37,6 +37,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/captchaImage", "/profile/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/datacity/**").permitAll()
+                .requestMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated()
             );
         

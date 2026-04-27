@@ -16,7 +16,7 @@
               <el-upload
                 :show-file-list="false"
                 :before-upload="beforeUpload"
-                :http-request="handleUpload"
+                :http-request="(options: any) => handleUpload(options)"
                 accept=".jpg,.jpeg,.png,.gif"
                 class="avatar-uploader"
               >
@@ -28,13 +28,13 @@
                 <div class="item-label">
                   <el-icon><User /></el-icon> 用户名称
                 </div>
-                <div class="item-value">{{ user.userName || '-' }}</div>
+                <div class="item-value">{{ user.username || '-' }}</div>
               </li>
               <li class="list-group-item">
                 <div class="item-label">
                   <el-icon><Iphone /></el-icon> 手机号码
                 </div>
-                <div class="item-value">{{ user.phonenumber || '-' }}</div>
+                <div class="item-value">{{ user.phone || '-' }}</div>
               </li>
               <li class="list-group-item">
                 <div class="item-label">
@@ -62,20 +62,14 @@
           <el-tabs v-model="activeTab">
             <el-tab-pane label="基本资料" name="userinfo">
               <el-form ref="userRef" :model="user" label-width="80px">
-                <el-form-item label="用户昵称" prop="nickName">
-                  <el-input v-model="user.nickName" maxlength="30" />
+                <el-form-item label="用户昵称" prop="nickname">
+                  <el-input v-model="user.nickname" maxlength="50" />
                 </el-form-item>
-                <el-form-item label="手机号码" prop="phonenumber">
-                  <el-input v-model="user.phonenumber" maxlength="11" />
+                <el-form-item label="手机号码" prop="phone">
+                  <el-input v-model="user.phone" maxlength="20" />
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                  <el-input v-model="user.email" maxlength="50" />
-                </el-form-item>
-                <el-form-item label="性别">
-                  <el-radio-group v-model="user.sex">
-                    <el-radio label="0">男</el-radio>
-                    <el-radio label="1">女</el-radio>
-                  </el-radio-group>
+                  <el-input v-model="user.email" maxlength="100" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submit">保存</el-button>
@@ -125,18 +119,18 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-import request from "@/utils/request";
+import { getCurrentUser, updateUser, uploadAvatar, updatePassword, type User } from "@/api/system/user";
 import { useUserStore } from "@/store/modules/user";
 
 const userStore = useUserStore();
 const activeTab = ref("userinfo");
-const user = ref({
-  userId: 0,
-  userName: "",
-  nickName: "",
-  phonenumber: "",
+const user = ref<User>({
+  id: 0,
+  username: "",
+  nickname: "",
+  phone: "",
   email: "",
-  sex: "0",
+  status: "",
   avatar: "",
   createTime: "",
 });
@@ -155,12 +149,16 @@ const avatarUrl = computed(() => {
 });
 
 function getUserInfo() {
-  request({
-    url: "/common/getInfo",
-    method: "get",
-  }).then((res: any) => {
+  getCurrentUser().then((res: any) => {
     user.value = res.data;
-    userStore.setAvatar(res.data.avatar);
+    if (res.data.avatar) {
+      userStore.setAvatar(res.data.avatar);
+    }
+    if (res.data.id) {
+      userStore.userId = res.data.id;
+    }
+  }).catch(() => {
+    ElMessage.error("获取用户信息失败");
   });
 }
 
@@ -179,21 +177,14 @@ function beforeUpload(file: File) {
   return true;
 }
 
-function handleUpload(options: any) {
+function handleUpload(options: any): Promise<any> {
   const formData = new FormData();
   formData.append("file", options.file);
-  formData.append("userId", String(user.value.userId));
+  formData.append("userId", String(user.value.id));
 
-  request({
-    url: "/common/uploadAvatar",
-    method: "post",
-    data: formData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }).then((res: any) => {
-    user.value.avatar = res.data.imgUrl;
-    userStore.setAvatar(res.data.imgUrl);
+  return uploadAvatar(formData).then((res: any) => {
+    user.value.avatar = res.data.avatar;
+    userStore.setAvatar(res.data.avatar);
     ElMessage.success("头像修改成功");
   }).catch(() => {
     ElMessage.error("头像上传失败");
@@ -201,14 +192,18 @@ function handleUpload(options: any) {
 }
 
 function submit() {
-  request({
-    url: "/system/user",
-    method: "put",
-    data: user.value,
-  }).then(() => {
+  if (!user.value.id) {
+    ElMessage.error("用户信息不完整");
+    return;
+  }
+  updateUser(user.value).then(() => {
     ElMessage.success("修改成功");
-    userStore.setNickName(user.value.nickName);
+    if (user.value.nickname) {
+      userStore.setNickName?.(user.value.nickname);
+    }
     getUserInfo();
+  }).catch(() => {
+    ElMessage.error("修改失败");
   });
 }
 
@@ -221,8 +216,15 @@ function submitPwd() {
     ElMessage.error("两次输入的密码不一致");
     return;
   }
-  ElMessage.success("密码修改成功");
-  pwd.value = { oldPassword: "", newPassword: "", confirmPassword: "" };
+  updatePassword({
+    oldPassword: pwd.value.oldPassword,
+    newPassword: pwd.value.newPassword
+  }).then(() => {
+    ElMessage.success("密码修改成功");
+    pwd.value = { oldPassword: "", newPassword: "", confirmPassword: "" };
+  }).catch(() => {
+    ElMessage.error("密码修改失败");
+  });
 }
 
 function close() {

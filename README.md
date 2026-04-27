@@ -30,6 +30,16 @@
 
 ### 开发者工具
 - 📖 **Swagger接口文档** - 在线API文档，支持在线调试
+- ⌨️ **命令面板** - Ctrl+K 快捷键快速导航与操作
+
+## 快捷操作
+
+### 命令面板 (Ctrl+K / Cmd+K)
+按下 `Ctrl+K`（Windows）或 `Cmd+K`（Mac）打开命令面板，支持：
+- **快速导航** - 输入"去 首页"、"用户管理"等快速跳转页面
+- **搜索关键词** - 支持中文、拼音首字母模糊搜索
+- **快捷操作** - 切换主题、刷新页面、退出登录等
+- **最近使用** - 自动记录最近5条命令
 
 ## 技术栈
 
@@ -93,6 +103,11 @@ demo/
 │   ├── src/
 │   │   ├── api/               # API接口
 │   │   ├── components/        # 公共组件
+│   │   │   └── CommandPalette.vue  # 命令面板组件
+│   │   ├── composables/       # 组合式函数
+│   │   │   └── useCommandRegistry.ts  # 命令注册中心
+│   │   ├── commands/          # 命令配置
+│   │   │   └── index.ts       # 命令注册模块
 │   │   ├── layout/            # 布局组件
 │   │   ├── router/            # 路由配置
 │   │   ├── store/             # 状态管理
@@ -178,6 +193,11 @@ npm run dev
 - **后端地址**：http://localhost:8080
 - **Swagger文档**：http://localhost:8080/swagger-ui/index.html
 - **默认账号**：admin / 123456
+
+### 注意事项
+1. **前端依赖安装** - 如遇到依赖冲突，请使用 `npm install --legacy-peer-deps`
+2. **数据库初始化** - 首次启动时会自动创建管理员账号
+3. **端口占用** - 确保 8080 和 5173 端口未被占用
 
 ## 系统截图
 

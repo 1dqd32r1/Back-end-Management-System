@@ -54,3 +54,16 @@ Thumbs.db
 
 ### VS Code ###
 .vscode/
+
+### Maven (backend folder) ###
+backend/target/
+
+### Upload files ###
+upload/
+
+### Auto-generated files ###
+ui/src/components.d.ts
+ui/src/auto-imports.d.ts
+
+### Test coverage ###
+ui/coverage/

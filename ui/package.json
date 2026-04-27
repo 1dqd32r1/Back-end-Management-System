@@ -7,7 +7,11 @@
     "dev": "vp dev",
     "build": "vue-tsc && vp build",
     "preview": "vp preview",
-    "prepare": "vp config"
+    "prepare": "vp config",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
@@ -24,11 +28,17 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^15.11.7",
+    "jsdom": "^25.0.1",
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-vue-components": "^32.0.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
     "vite-plus": "latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
+    "@vitest/coverage-v8": "npm:@voidzero-dev/vite-plus-test@latest",
+    "@vitest/ui": "npm:@voidzero-dev/vite-plus-test@latest",
     "vue-tsc": "^3.2.6"
   },
   "overrides": {

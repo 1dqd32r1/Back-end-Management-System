@@ -2,6 +2,14 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import Layout from '../layout/index.vue';
 import { getToken } from '@/utils/auth';
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    title?: string;
+    icon?: string;
+    hidden?: boolean;
+  }
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
@@ -138,7 +146,7 @@ const router = createRouter({
 
 // 全局路由守卫
 const whiteList = ['/login'];
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   if (getToken()) {
     if (to.path === '/login') {
       return { path: '/' };

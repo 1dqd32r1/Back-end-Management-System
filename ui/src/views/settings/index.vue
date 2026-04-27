@@ -24,15 +24,15 @@
             </el-form-item>
 
             <el-form-item label="侧边栏Logo">
-              <el-switch v-model="settings.showLogo" />
+              <el-switch v-model="settings.showLogo" @change="handleSettingChange" />
             </el-form-item>
 
             <el-form-item label="开启页签">
-              <el-switch v-model="settings.tagsView" />
+              <el-switch v-model="settings.tagsView" @change="handleSettingChange" />
             </el-form-item>
 
             <el-form-item label="固定Header">
-              <el-switch v-model="settings.fixedHeader" />
+              <el-switch v-model="settings.fixedHeader" @change="handleSettingChange" />
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -40,10 +40,10 @@
         <el-tab-pane label="通知设置" name="notifications">
           <el-form label-width="120px" class="settings-form">
             <el-form-item label="邮件通知">
-              <el-switch v-model="settings.emailNotify" />
+              <el-switch v-model="settings.emailNotify" @change="handleSettingChange" />
             </el-form-item>
             <el-form-item label="系统消息">
-              <el-switch v-model="settings.systemNotify" />
+              <el-switch v-model="settings.systemNotify" @change="handleSettingChange" />
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -51,19 +51,14 @@
         <el-tab-pane label="安全设置" name="security">
           <el-form label-width="120px" class="settings-form">
             <el-form-item label="双重认证">
-              <el-switch v-model="settings.twoFactor" />
+              <el-switch v-model="settings.twoFactor" @change="handleSettingChange" />
             </el-form-item>
             <el-form-item label="登录超时 (分钟)">
-              <el-input-number v-model="settings.timeout" :min="1" :max="1440" />
+              <el-input-number v-model="settings.timeout" :min="1" :max="1440" @change="handleSettingChange" />
             </el-form-item>
           </el-form>
         </el-tab-pane>
       </el-tabs>
-
-      <div class="footer-actions">
-        <el-button type="primary" @click="saveSettings">保存配置</el-button>
-        <el-button @click="resetSettings">重置默认</el-button>
-      </div>
     </el-card>
   </div>
 </template>
@@ -144,7 +139,7 @@ const handleThemeChange = (val: string | number | boolean | undefined) => {
   }
 };
 
-const saveSettings = () => {
+const handleSettingChange = () => {
   appStore.updateSettings({
     showLogo: settings.showLogo,
     tagsView: settings.tagsView,
@@ -154,12 +149,7 @@ const saveSettings = () => {
     twoFactor: settings.twoFactor,
     timeout: settings.timeout,
   });
-  ElMessage.success("系统设置保存成功");
-};
-
-const resetSettings = () => {
-  appStore.resetSettings();
-  ElMessage.info("已重置为默认配置");
+  ElMessage.success("设置已更新");
 };
 </script>
 
@@ -170,14 +160,6 @@ const resetSettings = () => {
 .settings-form {
   max-width: 600px;
   margin-top: 20px;
-}
-.footer-actions {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid var(--el-border-color-light);
-  display: flex;
-  justify-content: center;
-  gap: 20px;
 }
 .card-header {
   display: flex;

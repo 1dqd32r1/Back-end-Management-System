@@ -15,6 +15,8 @@
         </router-view>
       </section>
     </div>
+    <!-- 命令面板 -->
+    <CommandPalette v-model:visible="showCommandPalette" />
   </div>
 </template>
 
@@ -25,11 +27,14 @@ import { ElMessage } from "element-plus";
 import Sidebar from "./components/Sidebar.vue";
 import Header from "./components/Header.vue";
 import TagsView from "./components/TagsView.vue";
+import CommandPalette from "@/components/CommandPalette.vue";
 import { useAppStore } from "@/store/modules/app";
 import { useUserStore } from "@/store/modules/user";
+import { registerCommands } from "@/commands";
 
 const isCollapse = ref(false);
 const isMobile = ref(false);
+const showCommandPalette = ref(false);
 const appStore = useAppStore();
 const userStore = useUserStore();
 const router = useRouter();
@@ -87,6 +92,8 @@ onMounted(() => {
   if (userStore.token && !userStore.avatar) {
     userStore.getUserInfo();
   }
+  // 注册命令面板命令
+  registerCommands();
 });
 
 onUnmounted(() => {
